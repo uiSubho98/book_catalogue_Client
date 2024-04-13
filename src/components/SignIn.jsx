@@ -20,8 +20,6 @@ const SignIn = () => {
   });
   const dispatch = useDispatch();
   const { status, user, error, loading } = useSelector((state) => state.auth);
-  console.log({ status });
-  console.log({ user });
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
@@ -39,12 +37,9 @@ const SignIn = () => {
   };
 
   const handleLoginAsGuest = () => {
-    // Set predefined email and password values
-    setFormData({
-      ...formData,
-      email: "dsubhojit063@gmail.com",
-      password: "123456",
-    });
+    dispatch(
+      authenticateUser({ email: "dsubhojit063@gmail.com", password: "123456" })
+    );
   };
 
   return (
@@ -69,7 +64,7 @@ const SignIn = () => {
                     style={{ border: "1px solid white" }}
                     id="firstname"
                     placeholder="Tyler"
-                    className="bg-transparent "
+                    className="bg-transparent text-white "
                     type="text"
                     value={formData.name}
                     onChange={(e) =>
@@ -87,7 +82,7 @@ const SignIn = () => {
                 id="email"
                 placeholder="projectmayhem@fc.com"
                 type="email"
-                className="bg-transparent "
+                className="bg-transparent text-white "
                 style={{ border: "1px solid white" }}
                 value={formData.email}
                 onChange={(e) =>
@@ -104,7 +99,7 @@ const SignIn = () => {
                 placeholder="••••••••"
                 type="password"
                 value={formData.password}
-                className="bg-transparent "
+                className="bg-transparent text-white "
                 style={{ border: "1px solid white" }}
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })

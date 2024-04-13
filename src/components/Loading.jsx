@@ -21,7 +21,7 @@ function MultiStepLoaderDemo({ loading }) {
       <MultiStepLoader
         loadingStates={loadingStates}
         loading={loading}
-        duration={2000}
+        duration={800}
       />
     </div>
   );

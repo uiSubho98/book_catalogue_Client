@@ -25,17 +25,26 @@ function Navbar({ className }) {
         <HoveredLink setActive={setActive} to="/">
           Home
         </HoveredLink>
-        <HoveredLink setActive={setActive} to="/wishlist">
-          Wishlist
-        </HoveredLink>
         {(user || token) && (
-          <HoveredLink setActive={setActive} to="/addBooks">
-            Add Books
+          <HoveredLink setActive={setActive} to="/allBooks">
+            Books
           </HoveredLink>
         )}
         {(user || token) && (
+          <HoveredLink setActive={setActive} to="/wishlist">
+            Wishlist
+          </HoveredLink>
+        )}
+
+
+        {(user || token) && (
           <HoveredLink setActive={setActive} to="/addBooks">
-            Edit Books
+            Add 
+          </HoveredLink>
+        )}
+        {(user || token) && (
+          <HoveredLink setActive={setActive} to="/editBooks">
+            Edit
           </HoveredLink>
         )}
         {/* <HoveredLink setActive={setActive} href="/web-dev">

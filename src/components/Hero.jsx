@@ -7,14 +7,41 @@ import LoveIcon from "../Assets/LoveIcon";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import {
+  useAddWishlistMutation,
+  useRemoveWishlistMutation,
+  useWishlistsQuery,
+} from "../Redux/features/WishList";
 
 const Hero = () => {
   const { data, error, isLoading, isSuccess } = useBooksQuery(1);
+  const {
+    data: wishListItem,
+    error: wishListError,
+    isLoading: wish_Loading,
+  } = useWishlistsQuery(1);
+  const [addWishList] = useAddWishlistMutation(1);
   // console.log(data?.data?.title);
+  const [deleteWishlist] = useRemoveWishlistMutation();
   const navigate = useNavigate();
-  if (isLoading) {
+  if (isLoading || wish_Loading) {
     return <MultiStepLoaderDemo loading={isLoading} />;
   }
+  const handleAdd = async (id) => {
+    try {
+      const res = await addWishList(id);
+      console.log(res);
+      if (res?.data.statusCode === 200) {
+        console.log("added in wishlist");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const isBookInWishlist = (bookId) => {
+    return wishListItem?.data?.some((item) => item.bookId === bookId);
+  };
   return (
     <div className="h-fit w-full py-4 pt-10 bg-black">
       <style>
@@ -96,11 +123,21 @@ const Hero = () => {
                   Price: $ {card.price}
                 </p>
                 <div className="ml-auto">
-                  <FaRegHeart
-                    color="white"
-                    style={{ transform: "scale(1.5)" }}
-                  />
-                  {/* <FaHeart color="white" style={{ transform: "scale(1.5)" }} /> */}
+                  {isBookInWishlist(card._id) ? (
+                    <FaHeart
+                      onClick={() => {
+                        deleteWishlist(card._id);
+                      }}
+                      color="white"
+                      style={{ transform: "scale(1.5)" }}
+                    />
+                  ) : (
+                    <FaRegHeart
+                      color="white"
+                      style={{ transform: "scale(1.5)" }}
+                      onClick={() => handleAdd(card._id)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
